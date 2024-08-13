@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Language Learning Game</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>Language Learning Game</h1>
+        <p>Match the words with their translations!</p>
+    </header>
+
+    <main>
+        <section id="language-selection">
+            <label for="language">Choose a language:</label>
+            <select id="language">
+                <option value="spanish">Spanish</option>
+                <option value="french">French</option>
+                <option value="german">German</option>
+                <option value="italian">Italian</option>
+                <option value="portuguese">Portuguese</option>
+                <option value="russian">Russian</option>
+                <option value="japanese">Japanese</option>
+                <option value="chinese">Chinese</option>
+                <option value="korean">Korean</option>
+                <option value="arabic">Arabic</option>
+            </select>
+        </section>
+
+        <section id="level-selection">
+            <label for="level">Choose a level:</label>
+            <select id="level">
+                <option value="1">Level 1</option>
+                <option value="2">Level 2</option>
+                <option value="3">Level 3</option>
+                <option value="4">Level 4</option>
+                <option value="5">Level 5</option>
+            </select>
+        </section>
+
+        <section id="introduction">
+            <button id="show-intro">Show Game Introduction</button>
+            <div id="word-table"></div>
+            <button id="start-game" style="display:none;">Start Game</button>
+        </section>
+
+        <section id="game" style="display:none;">
+            <div class="word-list">
+                <h2>Words</h2>
+                <ul id="words-list"></ul>
+            </div>
+
+            <div class="word-list">
+                <h2>Translations</h2>
+                <ul id="translations-list"></ul>
+            </div>
+        </section>
+
+        <div id="controls" style="display:none;">
+            <button id="hint-btn">Show Hint</button>
+            <button id="clue-btn">Give Me a Clue</button>
+            <button id="check-matches">Check Matches</button>
+        </div>
+        
+        <p id="result"></p>
+        <div id="explanations"></div>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Language Learning Game</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
