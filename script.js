@@ -134,10 +134,10 @@ document.addEventListener('DOMContentLoaded', () => {
         if (correctMatches === translations.length) {
             result.textContent = 'All matches are correct! Well done!';
             result.style.color = 'green';
-        } else {
+        } //else {
             result.textContent = `You have ${correctMatches} correct matches. Well Done!`;
             result.style.color = 'green';
-        }
+        }//
 
         // Display explanations
         const words = wordsData[currentLanguage][currentLevel];
