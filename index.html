@@ -3,75 +3,178 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Language Learning Game</title>
-    <link rel="stylesheet" href="style.css">
+    <title style="color: red;">Word Search Puzzle</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            color: #000;
+            background-image: url(https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS7FYRhbBB0vKbO4PCkXFpesLF3WNJr95AzeQ&s);
+            background-size: 30%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        h1 {
+            margin-bottom: 20px;
+        }
+
+        table {
+            border-collapse: collapse;
+        }
+
+        td {
+            width: 40px;
+            height: 40px;
+            text-align: center;
+            font-size: 1.5em;
+            font-weight: bold;
+            border: 2px solid #000;
+            cursor: pointer;
+        }
+
+        td.selected {
+            background-color: #0509eb;
+        }
+
+        td:hover {
+            background-color: #04f704;
+        }
+
+        #word-list {
+            margin-top: 20px;
+        }
+
+        #word-list ul {
+            list-style-type: none;
+            padding: 0;
+            font-size: 1.2em;
+        }
+
+        #word-list li {
+            margin: 5px;
+        }
+
+        #current-word {
+            margin-top: 20px;
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+
+        #message {
+            margin-top: 10px;
+            font-size: 1.2em;
+            color: red;
+        }
+    </style>
 </head>
 <body>
-    <header>
-        <h1>Language Learning Game</h1>
-        <p>Match the words with their translations!</p>
-    </header>
+    <h1 style="color: #000;">Word Search Game</h1>
 
-    <main>
-        <section id="language-selection">
-            <label for="language">Choose a language:</label>
-            <select id="language">
-                <option value="spanish">Spanish</option>
-                <option value="french">French</option>
-                <option value="german">German</option>
-                <option value="italian">Italian</option>
-                <option value="portuguese">Portuguese</option>
-                <option value="russian">Russian</option>
-                <option value="japanese">Japanese</option>
-                <option value="chinese">Chinese</option>
-                <option value="korean">Korean</option>
-                <option value="arabic">Arabic</option>
-            </select>
-        </section>
+    <!-- Word Search Grid -->
+    <table id="grid">
+        <tr>
+            <td>A</td>
+            <td>P</td>
+            <td>P</td>
+            <td>L</td>
+            <td>E</td>
+        </tr>
+        <tr>
+            <td>P</td>
+            <td>E</td>
+            <td>T</td>
+            <td>C</td>
+            <td>S</td>
+        </tr>
+        <tr>
+            <td>P</td>
+            <td>I</td>
+            <td>C</td>
+            <td>T</td>
+            <td>O</td>
+        </tr>
+        <tr>
+            <td>L</td>
+            <td>A</td>
+            <td>S</td>
+            <td>C</td>
+            <td>S</td>
+        </tr>
+        <tr>
+            <td>E</td>
+            <td>D</td>
+            <td>A</td>
+            <td>E</td>
+            <td>D</td>
+        </tr>
+    </table>
 
-        <section id="level-selection">
-            <label for="level">Choose a level:</label>
-            <select id="level">
-                <option value="1">Level 1</option>
-                <option value="2">Level 2</option>
-                <option value="3">Level 3</option>
-                <option value="4">Level 4</option>
-                <option value="5">Level 5</option>
-            </select>
-        </section>
+    <!-- Words to find -->
+    <div id="word-list">
+        <h3 style="color: red;">Find these words:</h3>
+        <ul>
+            <li>APPLE</li>
+            <li>PET</li>
+            <li>CAT</li>
+            <li>CODE</li>
+            <li>SCIP</li>
+        </ul>
+    </div>
 
-        <section id="introduction">
-            <button id="show-intro">Show Game Introduction</button>
-            <div id="word-table"></div>
-            <button id="start-game" style="display:none;">Start Game</button>
-        </section>
+    <!-- Selected Word -->
+    <div id="current-word">Current word: <span id="selected-word"></span></div>
+    <button onclick="submitWord()">Submit Word</button>
 
-        <section id="game" style="display:none;">
-            <div class="word-list">
-                <h2>Words</h2>
-                <ul id="words-list"></ul>
-            </div>
+    <!-- Message -->
+    <div id="message"></div>
 
-            <div class="word-list">
-                <h2>Translations</h2>
-                <ul id="translations-list"></ul>
-            </div>
-        </section>
+    <script>
+        const wordsToFind = ['APPLE', 'PET', 'CAT', 'CODE', 'SCIP']; // Words to find
+        let selectedCells = [];
+        let currentWord = '';
 
-        <div id="controls" style="display:none;">
-            <button id="hint-btn">Show Hint</button>
-            <button id="clue-btn">Give Me a Clue</button>
-            <button id="check-matches">Check Matches</button>
-        </div>
-        
-        <p id="result"></p>
-        <div id="explanations"></div>
-    </main>
+        // Select letters when clicked
+        document.querySelectorAll('td').forEach(cell => {
+            cell.addEventListener('click', () => {
+                if (!cell.classList.contains('selected')) {
+                    cell.classList.add('selected');
+                    selectedCells.push(cell);
+                    currentWord += cell.textContent;
+                    updateCurrentWord();
+                }
+            });
+        });
 
-    <footer>
-        <p>&copy; 2024 Language Learning Game</p>
-    </footer>
+        // Update the current word being formed
+        function updateCurrentWord() {
+            document.getElementById('selected-word').textContent = currentWord;
+        }
 
-    <script src="script.js"></script>
+        // Submit the word and check if it's valid
+        function submitWord() {
+            const messageElement = document.getElementById('message');
+            if (wordsToFind.includes(currentWord)) {
+                messageElement.textContent = `Good job! You found "${currentWord}"!`;
+                messageElement.style.color = 'green';
+                resetSelection();
+            } else {
+                messageElement.textContent = `"${currentWord}" is not a valid word. Try again!`;
+                messageElement.style.color = 'red';
+                resetSelection();
+            }
+        }
+
+        // Reset selection and clear the current word
+        function resetSelection() {
+            selectedCells.forEach(cell => cell.classList.remove('selected'));
+            selectedCells = [];
+            currentWord = '';
+            updateCurrentWord();
+        }
+    </script>
 </body>
 </html>
